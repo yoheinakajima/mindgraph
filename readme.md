@@ -1,6 +1,6 @@
-# AutoPlex
+# MindGraph
 
-Welcome to AutoPlex, a simple and flexible open-source, API-first graph-based CRM designed for seamless integration of AI functionality. This prototype serves as a template for building and customizing your own CRM solutions with a focus on ease of integration and extendibility.
+Welcome to MindGraph, a proof of concept, open-source, API-first graph-based project designed for natural language interactions (input and output). This prototype serves as a template for building and customizing your own CRM solutions with a focus on ease of integration and extendibility.
 
 ## Getting Started
 
@@ -25,7 +25,7 @@ The server will launch on `http://0.0.0.0:81`.
 
 ## Project Structure
 
-AutoPlex is organized into several key components:
+MindGraph is organized into several key components:
 
 - `main.py`: The entry point to the application.
 - `app/__init__.py`: Sets up the Flask app and integrates the blueprints.
@@ -36,7 +36,7 @@ AutoPlex is organized into several key components:
 
 ## Integration System
 
-AutoPlex employs a sophisticated integration system designed to extend the application's base functionality dynamically. At the core of this system is `integration_manager.py`, which acts as a registry and executor for various integration functions. This modular architecture allows AutoPlex to incorporate AI-powered features seamlessly, such as processing natural language inputs into structured knowledge graphs through integrations like `natural_input.py`. Further integrations, including `add_multiple_conditional`, `conditional_entity_addition`, and `conditional_relationship_addition`, work in tandem to ensure the integrity and enhancement of the application's data model.
+MindGraph employs a sophisticated integration system designed to extend the application's base functionality dynamically. At the core of this system is `integration_manager.py`, which acts as a registry and executor for various integration functions. This modular architecture allows AutoPlex to incorporate AI-powered features seamlessly, such as processing natural language inputs into structured knowledge graphs through integrations like `natural_input.py`. Further integrations, including `add_multiple_conditional`, `conditional_entity_addition`, and `conditional_relationship_addition`, work in tandem to ensure the integrity and enhancement of the application's data model.
 
 ## Features
 
@@ -50,7 +50,7 @@ AutoPlex employs a sophisticated integration system designed to extend the appli
 
 ## API Endpoints
 
-AutoPlex provides a series of RESTful endpoints:
+MindGraph provides a series of RESTful endpoints:
 
 - `POST /<entity_type>`: Create an entity.
 - `GET /<entity_type>/<int:entity_id>`: Retrieve an entity.
@@ -87,7 +87,7 @@ curl -X POST http://0.0.0.0:81/people \
 
 ### Example Use Cases
 
-To demonstrate the power of AutoPlex's integration system, here are some example commands:
+To demonstrate the power of MindGraph's integration system, here are some example commands:
 
 #### Triggering Natural Input Integration
 
@@ -98,22 +98,14 @@ curl -X POST http://0.0.0.0:81/trigger-integration/natural_input \
 
 ## Contributions
 
-Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make to the AutoPlex project are **greatly appreciated**.
-
-- Fork the Project
-- Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-- Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-- Push to the Branch (`git push origin feature/AmazingFeature`)
-- Open a Pull Request
-
-Contributions are what make the open-source community such an amazing place to learn, inspire, and create. We specifically welcome contributions towards developing new integrations or enhancing the existing ones, especially those that leverage AI to improve data processing and decision-making capabilities. Your contributions to the AutoPlex project are **greatly appreciated**.
+Let's be honest... I don't maintain projects. If you want to take over/manage this, let me know (X/Twitter is a good channel). Otherwise, enjoy this proof of concept starter kit as it is :)
 
 ## License
 
-AutoPlex is distributed under the MIT License. See `LICENSE` for more information.
+MindGraph is distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact
 
 Just tag me on Twitter/X [https://twitter.com/yoheinakajima](@yoheinakajima)
 
-Project Link: [https://github.com/yoheinakajima/autoplex](https://github.com/yoheinakajima/autoplex)
+Project Link: [https://github.com/yoheinakajima/MindGraph](https://github.com/yoheinakajima/MindGraph)
