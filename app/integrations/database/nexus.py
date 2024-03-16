@@ -1,3 +1,15 @@
+# This is an integration for the NexusDB database (https://www.nexusdb.io)
+# NexusDB is a new, all-in-one cloud database for graphs, tables, documents, files,
+# vectors, and more. It allows you to connet all these database types in one place
+# and access a shared knowledge graph where anyone can upload and share information.
+# More information about all of this can be found in the nexus docs
+# (https://nexusdb.readthedocs.io/en/latest/), more documentation is coming
+# soon but in the meantime you can reference the python API
+# at https://github.com/Astra-Analytics/nexus-python
+
+# We are currently looking for design partners and investors! If interested please reach
+# out to us at info@nexusdb.io
+
 import json
 import os
 from typeid import TypeID, get_prefix_and_suffix as typeid_prefix
