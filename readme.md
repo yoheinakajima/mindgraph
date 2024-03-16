@@ -95,6 +95,7 @@ To demonstrate the power of MindGraph's integration system, here are some exampl
 curl -X POST http://0.0.0.0:81/trigger-integration/natural_input \
 -H "Content-Type: application/json" \
 -d '{"input":"Company XYZ organized an event attended by John Doe and Jane Smith."}'
+```
 
 ## Contributions
 
