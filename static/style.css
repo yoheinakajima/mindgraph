@@ -1,0 +1,85 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: Arial, sans-serif;
+}
+
+#search-container {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 10;
+    background-color: #fff; /* Ensure visibility on top of other elements */
+    padding: 5px; /* Add padding for visual spacing around the buttons */
+    border-radius: 5px; /* Optional: rounded corners for the container */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Optional: adding a subtle shadow for depth */
+}
+
+#search-box, #data-box { /* Apply consistent styling to both text boxes */
+    padding: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px; /* Ensure spacing between elements */
+}
+
+#search-btn, #add-data-btn, #submit-data-btn, #refresh-btn { /* Consistent button styling */
+    padding: 5px;
+    margin-right: 5px; /* Ensure spacing between buttons if placed side by side */
+}
+
+#answer {
+    padding: 5px;
+    font-size: 15px;
+    max-width:600px;
+}
+
+#add-data-form {
+    position: absolute;
+    top: 60px; /* Adjust based on the size of your search container */
+    left: 10px;
+    z-index: 9; /* Below the search container, but above other content */
+    background-color: #fff; /* Match the search container's background */
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#csv-upload-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+#csv-file-input {
+    margin-bottom: 10px;
+}
+
+
+#cy {
+    width: 75%;
+    height: 95vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-right: 1px solid #ccc;
+    font-size:12px;
+}
+
+#sidebar {
+    width: 25%;
+    height: 95vh;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #f8f8f8;
+    overflow-y: auto;
+    border-left: 1px solid #ccc;
+    padding: 10px;
+}
+
+.highlighted {
+    background-color: yellow;
+    border-color: red;
+    line-color: red;
+    target-arrow-color: red;
+}

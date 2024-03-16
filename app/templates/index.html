@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph-Based CRM</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.20.0/cytoscape.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Assuming style.css is available in the correct path -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+<body>
+    <div id="search-container">
+        <input type="text" id="search-box" placeholder="Search nodes...">
+        <button id="search-btn">Search</button>
+        <button id="add-data-btn">Add Data</button> <!-- Add Data button -->
+        <button id="refresh-btn">Refresh</button>
+        <div id="answer"></div>
+    </div>
+
+    <!-- Hidden add data form, shown when Add Data button is clicked -->
+    <div id="add-data-form" style="display:none;">
+        <div style="padding-bottom:5px;">
+          <select id="input-type-selector">
+              <option value="natural_input">Natural Input</option>
+              <option value="latent_input">Latent Input</option>
+              <option value="url_input">URL Input</option>
+          </select></br>
+        </div>
+        <textarea id="data-box" placeholder="Enter data..." rows="4" cols="50"></textarea>
+        <button id="submit-data-btn">Submit</button>
+        <!-- Horizontal break and CSV Upload Form -->
+        <hr>
+        <div id="csv-upload-container">
+            <input type="file" id="csv-file-input" accept=".csv">
+            <button id="csv-upload-btn">Upload CSV</button>
+        </div>
+
+    </div>
+
+    <div id="cy"></div>
+
+    <div id="sidebar">
+        <!-- Sidebar content will be dynamically updated -->
+    </div>
+    <!-- Assuming script.js is available in the correct path -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+
+</body>
+</html>

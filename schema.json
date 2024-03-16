@@ -1,0 +1,88 @@
+{
+  "Person": {
+    "node_type": "Person",
+    "edge_types": {
+      "name": "The name of the individual.",
+      "description": "Description of the person.",
+      "Born in/Died in": "Years of birth and death, if applicable.",
+      "Works for": "Organizations the person is or was affiliated with.",
+      "Invented/Discovered": "List of technologies or concepts the person has invented or discovered.",
+      "Expert in": "Areas of expertise.",
+      "Located in/Found in": "Current geographical location."
+    }
+  },
+  "Organization": {
+    "node_type": "Organization",
+    "edge_types": {
+      "name": "Name of the organization.",
+      "description": "Description of the organization.",
+      "Founded in": "Year and location the organization was founded.",
+      "Operates in": "Regions where the organization has operations.",
+      "Produces/Offers": "Products, services, or technologies the organization provides.",
+      "Invests in": "Technologies, markets, or other organizations it has invested in.",
+      "Collaborates on": "Partnerships or collaborations with other organizations or individuals.",
+      "Competes with": "Other organizations it competes with."
+    }
+  },
+  "Object": {
+    "node_type": "Object",
+    "edge_types": {
+      "name": "Name of the object.",
+      "description": "Description of the object.",
+      "Part of/Contains": "Components or contents of the object, if applicable.",
+      "Produced/Offers": "If the object is a product, which organization offers it.",
+      "Used by/Utilized by": "Who uses the object, if it's a tool or technology.",
+      "Color": "Color of the object."
+    }
+  },
+  "Concept": {
+    "node_type": "Concept",
+    "edge_types": {
+      "name": "Name of the concept.",
+      "description": "Description of the concept.",
+      "Is a/Type of": "Broader category the concept falls under.",
+      "Related to": "Concepts or technologies related to this one.",
+      "Contrasts with": "Concepts or technologies it is in opposition to."
+    }
+  },
+  "Event": {
+    "node_type": "Event",
+    "edge_types": {
+      "name": "Name of the event.",
+      "description": "Description of the event.",
+      "Occurs in": "Location and date of the event.",
+      "Involves/Includes": "People or organizations involved in the event.",
+      "Related to": "Concepts, actions, or technologies related to the event."
+    }
+  },
+  "Technology": {
+    "node_type": "Technology",
+    "edge_types": {
+      "name": "Name of the technology.",
+      "description": "Description of the technology.",
+      "Invented/Discovered": "Who invented or discovered the technology.",
+      "Used by/Utilized by": "Organizations or products that use this technology.",
+      "Invests in": "Organizations or markets investing in this technology."
+    }
+  },
+  "Market": {
+    "node_type": "Market",
+    "edge_types": {
+      "name": "Name of the market.",
+      "description": "Description of the market.",
+      "Targets/Addresses Market": "Products or technologies aimed at this market.",
+      "Competes with": "Other markets it competes with.",
+      "Related to": "Technologies or concepts relevant to this market."
+    }
+  },
+  "Product": {
+    "node_type": "Product",
+    "edge_types": {
+      "name": "Name of the product.",
+      "description": "Description of the product.",
+      "Produced/Offers": "Organization that offers the product.",
+      "Targets/Addresses Market": "Market segments the product targets.",
+      "Used by/Utilized by": "Typical users or applications of the product."
+    }
+  }
+}
