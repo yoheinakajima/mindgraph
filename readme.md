@@ -1,6 +1,6 @@
 # MindGraph
 
-Welcome to MindGraph, a proof of concept, open-source, API-first graph-based project designed for natural language interactions (input and output). This prototype serves as a template for building and customizing your own CRM solutions with a focus on ease of integration and extendibility.
+Welcome to MindGraph, a proof of concept, open-source, API-first graph-based project designed for natural language interactions (input and output). This prototype serves as a template for building and customizing your own CRM solutions with a focus on ease of integration and extendibility. Here is the [announcement on X](https://twitter.com/yoheinakajima/status/1769019899245158648), for some more context.
 
 ## Getting Started
 
@@ -65,6 +65,27 @@ MindGraph provides a series of RESTful endpoints:
 
 - `POST /trigger-integration/<integration_name>`: Activates a predefined integration function.
 
+## Frontend Overview
+
+MindGraph's frontend features an interactive, web-based interface that facilitates dynamic visualization and management of the graph-based data model. It leverages HTML, CSS, JavaScript, Cytoscape.js for graph visualization, and jQuery for handling AJAX requests.
+
+### Features
+
+- **Graph Visualization**: Uses Cytoscape.js for interactive graph rendering.
+- **Dynamic Data Interaction**: Supports real-time data fetching, addition, and graph updating without page reloads.
+- **Search and Highlight**: Allows users to search for nodes, highlighting and listing matches.
+- **Data Submission Forms**: Includes forms for natural language, URL inputs, and CSV file uploads.
+- **Responsive Design**: Adapts to various devices and screen sizes.
+
+### Workflow
+
+1. **Initialization**: On page load, initializes the graph with styles and layout.
+2. **User Interaction**: Through the interface, users can:
+   - Search for nodes, with results highlighted in the graph and listed in a sidebar.
+   - Add data using a form that supports various input methods.
+   - Refresh the graph to reflect the latest backend data.
+3. **Data Processing**: User inputs are sent to the backend, processed, and integrated, with the frontend graph visualization updated accordingly.
+
 ## Development & Extension
 
 ### Adding New Integrations
@@ -74,6 +95,28 @@ To incorporate a new integration into AutoPlex, create a Python module within th
 ### Utilizing Signals
 
 Signals are emitted for entity lifecycle events, providing hooks for extending functionality or syncing with other systems.
+
+## Database Integration and Usage
+MindGraph supports flexible database integration to enhance its data storage and retrieval capabilities. Out of the box, MindGraph includes support for an in-memory database and a more robust, cloud-based option, NexusDB. This flexibility allows for easy adaptation to different deployment environments and use cases.
+
+### Supported Databases
+- InMemoryDatabase: A simple, in-memory graph data structure for quick prototyping and testing. Not recommended for production use due to its non-persistent nature.
+- NexusDB: An all-in-one cloud database designed for storing graphs, tables, documents, files, vectors, and more. Offers a shared knowledge graph for comprehensive data management and analysis.
+Configuring the Database
+
+Database integration is controlled through the DATABASE_TYPE environment variable. To select a database, set this variable to either memory for the in-memory database or nexusdb for NexusDB integration.
+
+### Adding New Database Integrations
+To integrate a new database system into MindGraph:
+
+1) Implement the Database Integration: Create a new Python module under app/integrations/database following the abstract base class DatabaseIntegration defined in base.py. Your implementation should provide concrete methods for all abstract methods in the base class.
+
+2) Register Your Integration: Modify the database type detection logic in app/integrations/database/__init__.py to include your new database type. This involves adding an additional elif statement to check for your database's type and set the CurrentDBIntegration accordingly.
+
+3) Configure Environment Variables: If your integration requires custom environment variables (e.g., for connection strings, authentication), ensure they are documented and set properly in the environment where MindGraph is deployed.
+
+### Schema Management
+For databases requiring schema definitions (like NexusDB), include a schema management strategy within your integration module. This may involve checking and updating the database schema on startup to ensure compatibility with the current version of MindGraph.
 
 ## Example Command
 
