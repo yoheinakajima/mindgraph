@@ -38,7 +38,7 @@ MindGraph is organized into several key components:
 
 ## Integration System
 
-MindGraph employs a sophisticated integration system designed to extend the application's base functionality dynamically. At the core of this system is `integration_manager.py`, which acts as a registry and executor for various integration functions. This modular architecture allows AutoPlex to incorporate AI-powered features seamlessly, such as processing natural language inputs into structured knowledge graphs through integrations like `natural_input.py`. Further integrations, including `add_multiple_conditional`, `conditional_entity_addition`, and `conditional_relationship_addition`, work in tandem to ensure the integrity and enhancement of the application's data model.
+MindGraph employs a sophisticated integration system designed to extend the application's base functionality dynamically. At the core of this system is `integration_manager.py`, which acts as a registry and executor for various integration functions. This modular architecture allows MindGraph to incorporate AI-powered features seamlessly, such as processing natural language inputs into structured knowledge graphs through integrations like `natural_input.py`. Further integrations, including `add_multiple_conditional`, `conditional_entity_addition`, and `conditional_relationship_addition`, work in tandem to ensure the integrity and enhancement of the application's data model.
 
 ## Features
 
@@ -69,13 +69,13 @@ MindGraph provides a series of RESTful endpoints:
 
 ## Frontend Overview
 
-MindGraph's frontend features an interactive, web-based interface that facilitates dynamic visualization and management of the graph-based data model. It leverages HTML, CSS, JavaScript, Cytoscape.js for graph visualization, and jQuery for handling AJAX requests.
+MindGraph's frontend features a lightweight interactive, web-based interface that facilitates dynamic visualization and management of the graph-based data model. While MindGraph is meant to be used as an API, the front-end was helpful for demo purposes. It leverages HTML, CSS, JavaScript, Cytoscape.js for graph visualization, and jQuery for handling AJAX requests.
 
 ### Features
 
 - **Graph Visualization**: Uses Cytoscape.js for interactive graph rendering.
 - **Dynamic Data Interaction**: Supports real-time data fetching, addition, and graph updating without page reloads.
-- **Search and Highlight**: Allows users to search for nodes, highlighting and listing matches.
+- **Search and Highlight**: Allows users to search for nodes, highlighting and listing matches. Search form is being double used for natural language queries right now, which doesn't really make sense, but was a quick way to showcase functionality. (This is meant to be used as an API, front-end is for demo purpose)
 - **Data Submission Forms**: Includes forms for natural language, URL inputs, and CSV file uploads.
 - **Responsive Design**: Adapts to various devices and screen sizes.
 
@@ -92,7 +92,7 @@ MindGraph's frontend features an interactive, web-based interface that facilitat
 
 ### Adding New Integrations
 
-To incorporate a new integration into AutoPlex, create a Python module within the `integrations` directory. This module should define the integration's logic and include a `register` function that connects the integration to the `IntegrationManager`. Ensure that your integration interacts properly with the application's components, such as `models.py` for data operations and `views.py` for activation via API endpoints. This approach allows AutoPlex to dynamically expand its capabilities through modular and reusable code.
+To incorporate a new integration into MindGraph, create a Python module within the `integrations` directory. This module should define the integration's logic and include a `register` function that connects the integration to the `IntegrationManager`. Ensure that your integration interacts properly with the application's components, such as `models.py` for data operations and `views.py` for activation via API endpoints. This approach allows MindGraph to dynamically expand its capabilities through modular and reusable code.
 
 ### Utilizing Signals
 
