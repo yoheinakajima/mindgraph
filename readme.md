@@ -88,6 +88,26 @@ MindGraph's frontend features a lightweight interactive, web-based interface tha
    - Refresh the graph to reflect the latest backend data.
 3. **Data Processing**: User inputs are sent to the backend, processed, and integrated, with the frontend graph visualization updated accordingly.
 
+## Schema-driven Knowledge Graph Creation
+
+MindGraph utilizes a `schema.json` file to define the structure and relationships of entities within its knowledge graph. This schema acts as a blueprint for interpreting and structuring natural language inputs into a coherent graph format. It details the types of nodes (e.g., Person, Organization, Concept) and the possible relationships between them, ensuring that the generated knowledge graph adheres to a consistent format. This approach allows for automated, AI-driven processing of natural language inputs to generate structured data that reflects the complex interrelations inherent in the input text.
+
+### Utilizing `schema.json` in AI Integration
+
+When the `create_knowledge_graph` function processes an input, it consults `schema.json` to understand how to map the identified entities and their relationships into the graph. This includes:
+
+- Identifying node types and attributes based on the schema definitions.
+- Determining valid relationship types and their characteristics.
+- Structuring the output to match the expected graph format, facilitating seamless integration with the application's data model.
+
+The schema ensures that the AI-generated knowledge graph is not only consistent with the application's data model but also rich in detail, capturing the nuanced relationships between entities as described in the input.
+
+### Benefits
+
+- **Consistency**: Ensures that all knowledge graphs generated from natural language inputs adhere to the same structural rules, making data integration and interpretation more straightforward.
+- **Flexibility**: Allows for easy updates and expansions of the knowledge graph structure by modifying `schema.json`, without requiring changes to the codebase.
+- **AI Integration**: Facilitates the use of advanced AI models for natural language processing by providing a clear structure for the expected output, enhancing the application's ability to derive meaningful insights from unstructured data.
+
 ## Development & Extension
 
 ### Adding New Integrations
@@ -99,6 +119,7 @@ To incorporate a new integration into MindGraph, create a Python module within t
 Signals are emitted for entity lifecycle events, providing hooks for extending functionality or syncing with other systems.
 
 ## Database Integration and Usage
+
 MindGraph supports flexible database integration to enhance its data storage and retrieval capabilities. Out of the box, MindGraph includes support for an in-memory database and a more robust, cloud-based option, NexusDB. This flexibility allows for easy adaptation to different deployment environments and use cases.
 
 ### Supported Databases
