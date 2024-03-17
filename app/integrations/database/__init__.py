@@ -7,5 +7,5 @@ db_type = os.getenv("DATABASE_TYPE", "memory").lower()
 
 if db_type == "nexusdb":
   CurrentDBIntegration = NexusDBIntegration
-elif db_type == "memory":
+else:
   CurrentDBIntegration = InMemoryDatabase
