@@ -74,16 +74,15 @@ class InMemoryDatabase(DatabaseIntegration):
     self.graph["relationships"].append(data)
     return len(self.graph["relationships"])
 
-  def search_entities(self, search_params):
+  def search_entities(self, entity_type, search_params):
     results = []
-    for entity_type, entities in self.graph["entities"].items():
-      for entity_id, entity_details in entities.items():
-        entity_info = entity_details.get("data", {})
-        # Convert values to strings for comparison
-        if all(
-            str(value).lower() in str(entity_info.get(key, "")).lower()
-            for key, value in search_params.items()):
-          results.append({"type": entity_type, "id": entity_id, **entity_info})
+    for entity_id, entity_details in self.graph["entities"].get(entity_type, {}).items():
+      entity_info = entity_details.get("data", {})
+      # Convert values to strings for comparison
+      if all(
+          str(value).lower() in str(entity_info.get(key, "")).lower()
+          for key, value in search_params.items()):
+        results.append({"type": entity_type, "id": entity_id, **entity_info})
     return results
 
   def search_relationships(self, search_params):

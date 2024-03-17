@@ -6,18 +6,17 @@ Welcome to MindGraph, a proof of concept, open-source, API-first graph-based pro
 
 ## Getting Started
 
-### Prerequisites
-Before you begin, ensure you have the following installed:
-- Python 3.6 or higher
-- Flask, which can be installed via pip:
+### Installation
+
+To get started with MindGraph, clone the repository and install it.
 
 ```sh
-pip install Flask
+pip install .
 ```
 
 ## Running the Application
 
-After cloning the repository, navigate to the root directory and start the Flask server with:
+To run the application, execute the following command:
 
 ```sh
 python main.py
@@ -126,8 +125,13 @@ MindGraph supports flexible database integration to enhance its data storage and
 - InMemoryDatabase: A simple, in-memory graph data structure for quick prototyping and testing. Not recommended for production use due to its non-persistent nature.
 - NexusDB: An all-in-one cloud database designed for storing graphs, tables, documents, files, vectors, and more. Offers a shared knowledge graph for comprehensive data management and analysis.
 Configuring the Database
+- NebulaGraph: A distributed, scalable, and lightning-fast graph database that supports real-time queries and analytics. Ideal for large-scale graph data storage and processing.
 
-Database integration is controlled through the DATABASE_TYPE environment variable. To select a database, set this variable to either memory for the in-memory database or nexusdb for NexusDB integration.
+Database integration is controlled through the DATABASE_TYPE environment variable. To select a database, set this variable:
+
+-  `memory` for the in-memory database.
+-  `nexusdb` for NexusDB integration.
+-  `nebulagraph` for NebulaGraph integration.
 
 ### Adding New Database Integrations
 To integrate a new database system into MindGraph:

@@ -30,6 +30,7 @@ from .models import (
     delete_entity,
     add_relationship,
     search_entities,
+    search_relationships,
 )
 from .signals import entity_created, entity_updated, entity_deleted
 from .integration_manager import get_integration_function

@@ -37,6 +37,9 @@ from app.models import search_entities, add_entity
 
 # Your OpenAI API key should be securely stored and accessed. Hardcoding is not recommended for production systems.
 openai.api_key = os.environ['OPENAI_API_KEY']
+openai.base_url = os.environ.get('OPENAI_BASE_URL', 'https://api.openai.com/v1')
+
+OPENAI_MODEL_NAME = "gpt-4-turbo-preview"
 
 def conditional_entity_addition(app, data):
     with app.app_context():
@@ -74,7 +77,7 @@ def conditional_entity_addition(app, data):
         # Make a call to OpenAI API
         try:
             response = openai.ChatCompletion.create(
-                model="gpt-4-turbo-preview",
+                model=os.environ.get('OPENAI_MODEL_NAME', OPENAI_MODEL_NAME),
                 messages=messages
             )
             ai_response = response.choices[0].message.content.strip()
