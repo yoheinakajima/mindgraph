@@ -177,6 +177,6 @@ MindGraph is distributed under the MIT License. See `LICENSE` for more informati
 
 ## Contact
 
-Just tag me on Twitter/X [https://twitter.com/yoheinakajima](@yoheinakajima)
+Just tag me on Twitter/X [https://twitter.com/yoheinakajima](https://twitter.com/yoheinakajima)
 
 Project Link: [https://github.com/yoheinakajima/MindGraph](https://github.com/yoheinakajima/MindGraph)
