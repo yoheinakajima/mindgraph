@@ -131,7 +131,7 @@ Database integration is controlled through the DATABASE_TYPE environment variabl
 
 -  `memory` for the in-memory database.
 -  `nexusdb` for NexusDB integration.
--  `nebulagraph` for NebulaGraph integration.
+-  `nebulagraph` for NebulaGraph integration.(Working-in-progress, not fully verified yet)
 
 ### Adding New Database Integrations
 To integrate a new database system into MindGraph:
