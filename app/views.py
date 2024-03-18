@@ -30,6 +30,7 @@ from .models import (
     delete_entity,
     add_relationship,
     search_entities,
+    search_entities_with_type,
     search_relationships,
 )
 from .signals import entity_created, entity_updated, entity_deleted
@@ -153,7 +154,7 @@ def search_entity(entity_type):
   search_params = request.args.to_dict()
 
   if search_params:
-    results = search_entities(entity_type, search_params)
+    results = search_entities_with_type(entity_type, search_params)
     return jsonify(results), 200
 
   return jsonify(error="Missing search parameters"), 400

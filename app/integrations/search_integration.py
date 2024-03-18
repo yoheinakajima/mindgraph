@@ -1,7 +1,7 @@
 # basic search
 
 from flask import jsonify
-from app.models import search_entities
+from app.models import search_entities_with_type
 
 def search_integration(app, data):
   with app.app_context():
@@ -10,7 +10,7 @@ def search_integration(app, data):
       search_params = data.get('search_params')
 
       if entity_type and search_params:
-          results = search_entities(entity_type, search_params)
+          results = search_entities_with_type(entity_type, search_params)
           print(f"Search results: {results}")
           # Return a Flask response object
           return jsonify(results), 200

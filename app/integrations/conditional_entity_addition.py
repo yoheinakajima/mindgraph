@@ -33,7 +33,7 @@
 import os
 import openai
 from flask import jsonify
-from app.models import search_entities, add_entity
+from app.models import search_entities_with_type, add_entity
 
 # Your OpenAI API key should be securely stored and accessed. Hardcoding is not recommended for production systems.
 openai.api_key = os.environ['OPENAI_API_KEY']
@@ -60,7 +60,7 @@ def conditional_entity_addition(app, data):
                 search_params = {key: value}
                 print(f"Search parameters: {search_params}")
                 print("entity type: ", entity_type)
-                results = search_entities(search_params)
+                results = search_entities_with_type(entity_type, search_params)
                 print(f"Search results: {results}")
                 search_results.extend(results)
   

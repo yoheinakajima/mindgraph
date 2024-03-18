@@ -17,13 +17,9 @@ NEBULA_ADDRESS = os.environ.get("NEBULA_ADDRESS", "127.0.0.1:9669")
 NEBULA_SPACE = os.environ.get("NEBULA_SPACE", "mindgraph")
 NEBULA_SPACE_PARTITIONS = os.environ.get("NEBULA_SPACE_PARTITIONS", 1)
 NEBULA_SPACE_REPLICAS = os.environ.get("NEBULA_SPACE_REPLICAS", 1)
-NEBULA_DDL_WAIT_BACKOFF_SECONDS = os.environ.get("NEBULA_DDL_WAIT_BACKOFF_SECONDS", 2)
+NEBULA_DDL_WAIT_BACKOFF_SECONDS = os.environ.get("NEBULA_DDL_WAIT_BACKOFF_SECONDS", 15)
 NEBULA_DDL_WAIT_RETRIES = os.environ.get("NEBULA_DDL_WAIT_RETRIES", 3)
 NEBULA_GRAPH_SAMPLE_SIZE = os.environ.get("NEBULA_GRAPH_SAMPLE_SIZE", 2000)
-
-PREDEFINED_RELATIONSHIPS = [
-    "associated",
-]
 
 
 def murmur64(string: str, seed: int = 0xC70F6907) -> int:
@@ -127,27 +123,34 @@ class NebulaGraphIntegration(InMemoryDatabase, DatabaseIntegration):
             assert self.nebula_connection.init(
                 [(address, int(port))], config
             ), "Failed to connect to NebulaGraph"
+            session = self.nebula_connection.get_session(
+                self.nebula_user, self.nebula_password
+            )
+            result = session.execute(
+                f"CREATE SPACE IF NOT EXISTS {self.nebula_space} "
+                f"(vid_type=int64, partition_num={NEBULA_SPACE_PARTITIONS}, "
+                f"replica_factor={NEBULA_SPACE_REPLICAS});"
+            )
         except Exception as e:
             print(f"Error establishing NebulaGraph connection: {e}")
             raise e
 
-        result = self.nebula_connection.execute(
-            f"CREATE SPACE IF NOT EXISTS {self.nebula_space} "
-            f"(vid_type=int64, partition_num={NEBULA_SPACE_PARTITIONS}, "
-            f"replica_factor={NEBULA_SPACE_REPLICAS});"
-        )
         assert result, "Failed to create space in NebulaGraph"
 
         # Await for the space to be created
         try:
-            session = self.nebula_connection.get_session(self.nebula_space)
             retries = int(NEBULA_DDL_WAIT_RETRIES)
             backoff_seconds = int(NEBULA_DDL_WAIT_BACKOFF_SECONDS)
             use_space = None
             for attempt in range(retries):
                 try:
                     use_space = session.execute(f"USE {self.nebula_space}")
-                    break
+                    if use_space.is_succeeded():
+                        break
+                    else:
+                        raise Exception(
+                            f"Failed to use space {self.nebula_space}: {use_space.error_msg()}"
+                        )
                 except Exception as e:
                     if attempt < retries - 1:  # i.e., 0 or 1 for 3 retries
                         print(
@@ -164,11 +167,16 @@ class NebulaGraphIntegration(InMemoryDatabase, DatabaseIntegration):
         except Exception as e:
             print(f"Error using space: {e}")
             raise e
+        finally:
+            try:
+                session.release()
+            except Exception as e:
+                print(f"Error releasing session: {e}")
 
         self.client = SessionPool(
             self.nebula_user,
             self.nebula_password,
-            self.space_name,
+            self.nebula_space,
             self.nebula_connection._addresses,
         )
         self.client.init(SessionPoolConfig())
@@ -205,21 +213,22 @@ class NebulaGraphIntegration(InMemoryDatabase, DatabaseIntegration):
         # VERTEX TAGS
         tag_names = []
         tag_queries = []
-        for entity_type in self.schema["entities"]:
-            tag_name = entity_type.lower()
+        relationships_in_schema = set()
+        for entity_type, entity_item in self.schema.items():
+            tag_name = entity_type
             tag_queries.append(
-                f"CREATE TAG IF NOT EXISTS {tag_name}(name string, description string);"
+                f"CREATE TAG IF NOT EXISTS `{tag_name}`(name string, description string);"
             )
             tag_names.append(tag_name)
+            for relationship_type in entity_item.get("edge_types", {}).keys():
+                relationships_in_schema.add(relationship_type)
         # EDGES TYPES
         edge_names = []
         edge_queries = []
-        for relationship_type in (
-            self.schema["relationships"] + PREDEFINED_RELATIONSHIPS
-        ):
-            edge_name = relationship_type.lower()
+        for relationship_type in relationships_in_schema:
+            edge_name = relationship_type
             edge_queries.append(
-                f"CREATE EDGE IF NOT EXISTS {edge_name}(snippet string);"
+                f"CREATE EDGE IF NOT EXISTS `{edge_name}`(snippet string, relationship_type string);"
             )
             edge_names.append(edge_name)
 
@@ -256,25 +265,29 @@ class NebulaGraphIntegration(InMemoryDatabase, DatabaseIntegration):
             "entities": {},
             "relationships": [],
         }
+        vector_id_map = {}
+        next_id = 0
 
         # Get edges
         edges = self.client.execute(
-            f"MATCH ()-[e]->() LIMIT {limit} RETURN e;"
+            f"MATCH ()-[e]->() RETURN e LIMIT {limit} ;"
         ).column_values("e")
         vertex_ids = set()
 
         for edge_raw in edges:
             edge = edge_raw.cast()
-            graph_sample["relationships"].append(
+            data_raw = edge.properties()
+            data = {k: v.cast() for k, v in data_raw.items()}
+            data.update(
                 {
                     "relationship": edge.edge_name(),
                     "from_id": edge.start_vertex_id().cast(),
                     "to_id": edge.end_vertex_id().cast(),
                     "from_entity": "",
                     "to_entity": "",
-                    "data": edge.properties(),
                 }
             )
+            graph_sample["relationships"].append(data)
             vertex_ids.add(edge.start_vertex_id().cast())
             vertex_ids.add(edge.end_vertex_id().cast())
 
@@ -288,12 +301,33 @@ class NebulaGraphIntegration(InMemoryDatabase, DatabaseIntegration):
             vertex = vertex_raw.cast()
             for tag in vertex.tags():
                 entity_type = tag
-                entity_id = vertex.vertex_id().cast()
-                data = vertex.properties(tag)
+                entity_id = vertex.get_id().cast()
+                entity_id = entity_id
+                data_raw = vertex.properties(tag)
+                data = {k: v.cast() for k, v in data_raw.items()}
+                temp_id = int(next_id)
+                vector_id_map[entity_id] = {
+                    "temp_id": next_id,
+                    "name": data.get("name", f"{entity_type}_{entity_id}"),
+                }
+                next_id += 1
+                data["temp_id"] = temp_id
+                record = {"entity_type": entity_type, "data": data}
                 if tag in graph_sample["entities"]:
-                    graph_sample["entities"][entity_type][entity_id] = data
+                    graph_sample["entities"][entity_type][temp_id] = record
                 else:
-                    graph_sample["entities"][entity_type] = {entity_id: data}
+                    graph_sample["entities"][entity_type] = {temp_id: record}
+
+        # update from entity and to entity with entity name
+        for relationship in graph_sample["relationships"]:
+            from_id = relationship["from_id"]
+            to_id = relationship["to_id"]
+            relationship["from_entity"] = vector_id_map.get(from_id, {}).get("name", "")
+            relationship["to_entity"] = vector_id_map.get(to_id, {}).get("name", "")
+            temp_from_id = vector_id_map.get(from_id, {}).get("temp_id", "")
+            temp_to_id = vector_id_map.get(to_id, {}).get("temp_id", "")
+            relationship["from_id"] = temp_from_id
+            relationship["to_id"] = temp_to_id
 
         return graph_sample
 
@@ -335,7 +369,7 @@ class NebulaGraphIntegration(InMemoryDatabase, DatabaseIntegration):
         result = self.client.execute(f"MATCH (v:`{entity_type}`) RETURN v;")
         if result.is_succeeded():
             for vertex in result:
-                entity_id = vertex.vertex_id().cast()
+                entity_id = vertex.get_id().cast()
                 data = vertex.properties()
                 entities[entity_id] = data
         return entities
@@ -429,9 +463,9 @@ class NebulaGraphIntegration(InMemoryDatabase, DatabaseIntegration):
         Returns:
             int: The number of relationships in the graph.
 
-        example_data =
         example_data = {
-            "relationship": "associated",
+            "relationship": "Works for",
+            "relationship_type": "associated",
             "from_id": "1",
             "to_id": "2",
             "from_entity": "Person",
@@ -449,7 +483,8 @@ class NebulaGraphIntegration(InMemoryDatabase, DatabaseIntegration):
             snippet = data["snippet"]
             # src_entity = data["from_entity"]
             # dst_entity = data["to_entity"]
-            query = f"INSERT EDGE `{edge_type}`(snippet) VALUES {src_id} -> {dst_id}:('{snippet}');"
+            relationship_type = data.get("relationship_type", "associated")
+            query = f"INSERT EDGE `{edge_type}`(snippet, relationship_type) VALUES {src_id} -> {dst_id}:('{snippet}', '{relationship_type}');"
             result = self.client.execute(query)
             assert result.is_succeeded(), f"Failed to insert edge: {result.error_msg()}"
         except Exception as e:
@@ -524,7 +559,24 @@ class NebulaGraphIntegration(InMemoryDatabase, DatabaseIntegration):
 
         return True
 
-    def search_entities(self, entity_type, search_params):
+    def search_entities(self, search_params):
+        # TODO: Implement search_entities on NebulaGraph side
+        self._get_cache_full_graph()
+        results = []
+        for entity_type, entities in self.graph["entities"].items():
+            for entity_id, entity_details in entities.items():
+                entity_info = entity_details.get("data", {})
+                # Convert values to strings for comparison
+                if all(
+                    str(value).lower() in str(entity_info.get(key, "")).lower()
+                    for key, value in search_params.items()
+                ):
+                    results.append(
+                        {"type": entity_type, "id": entity_id, **entity_info}
+                    )
+        return results
+
+    def search_entities_with_type(self, entity_type, search_params):
         # TODO: Implement search_entities on NebulaGraph side
         self._get_cache_full_graph()
         results = []

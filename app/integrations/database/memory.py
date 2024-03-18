@@ -9,6 +9,7 @@
 # - delete_entity: Removes an entity from the graph by its type and ID.
 # - add_relationship: Adds a relationship between entities to the graph.
 # - search_entities: Searches for entities based on a set of search parameters.
+# - search_entities_with_type: Searches for entities of a specific type based on search parameters.
 # - search_relationships: Searches for relationships that match given search parameters.
 # This representation is basic and intended for demonstration or prototyping. For production use, a database and an ORM (Object-Relational Mapping) should be utilized for data persistence and management.
 
@@ -74,7 +75,19 @@ class InMemoryDatabase(DatabaseIntegration):
     self.graph["relationships"].append(data)
     return len(self.graph["relationships"])
 
-  def search_entities(self, entity_type, search_params):
+  def search_entities(self, search_params):
+    results = []
+    for entity_type, entities in self.graph["entities"].items():
+      for entity_id, entity_details in entities.items():
+        entity_info = entity_details.get("data", {})
+        # Convert values to strings for comparison
+        if all(
+            str(value).lower() in str(entity_info.get(key, "")).lower()
+            for key, value in search_params.items()):
+          results.append({"type": entity_type, "id": entity_id, **entity_info})
+    return results
+
+  def search_entities_with_type(self, entity_type, search_params):
     results = []
     for entity_id, entity_details in self.graph["entities"].get(entity_type, {}).items():
       entity_info = entity_details.get("data", {})

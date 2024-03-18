@@ -38,5 +38,8 @@ def search_entities(search_params):
   return current_db_integration.search_entities(search_params)
 
 
+def search_entities_with_type(entity_type, search_params):
+  return current_db_integration.search_entities_with_type(entity_type, search_params)
+
 def search_relationships(search_params):
   return current_db_integration.search_relationships(search_params)
