@@ -6,18 +6,17 @@ Welcome to MindGraph, a proof of concept, open-source, API-first graph-based pro
 
 ## Getting Started
 
-### Prerequisites
-Before you begin, ensure you have the following installed:
-- Python 3.6 or higher
-- Flask, which can be installed via pip:
+### Installation
+
+To get started with MindGraph, clone the repository and install it.
 
 ```sh
-pip install Flask
+pip install .
 ```
 
 ## Running the Application
 
-After cloning the repository, navigate to the root directory and start the Flask server with:
+To run the application, execute the following command:
 
 ```sh
 python main.py
@@ -126,8 +125,25 @@ MindGraph supports flexible database integration to enhance its data storage and
 - InMemoryDatabase: A simple, in-memory graph data structure for quick prototyping and testing. Not recommended for production use due to its non-persistent nature.
 - NexusDB: An all-in-one cloud database designed for storing graphs, tables, documents, files, vectors, and more. Offers a shared knowledge graph for comprehensive data management and analysis.
 Configuring the Database
+- NebulaGraph: A distributed, scalable, and lightning-fast graph database that supports real-time queries and analytics. Ideal for large-scale graph data storage and processing.
 
-Database integration is controlled through the DATABASE_TYPE environment variable. To select a database, set this variable to either memory for the in-memory database or nexusdb for NexusDB integration.
+Database integration is controlled through the DATABASE_TYPE environment variable. To select a database, set this variable:
+
+-  `memory` for the in-memory database.
+-  `nexusdb` for NexusDB integration.
+
+```sh
+export DATABASE_TYPE=nexusdb
+```
+
+-  `nebulagraph` for NebulaGraph integration.
+
+> Note: For a running [NebulaGraph](https://github.com/vesoft-inc/nebula), consider using the [Docker Desktop Extension](https://hub.docker.com/extensions/weygu/nebulagraph-dd-ext), [NebulaGraph-Lite](https://github.com/nebula-contrib/nebulagraph-lite) for Colab/Linux with pip install, or explore more options in the [Docs](https://docs.nebula-graph.io/).
+
+```sh
+export DATABASE_TYPE=nebulagraph
+export NEBULA_ADDRESS=127.0.0.1:9669
+```
 
 ### Adding New Database Integrations
 To integrate a new database system into MindGraph:
@@ -173,6 +189,6 @@ MindGraph is distributed under the MIT License. See `LICENSE` for more informati
 
 ## Contact
 
-Just tag me on Twitter/X [https://twitter.com/yoheinakajima](@yoheinakajima)
+Just tag me on Twitter/X [https://twitter.com/yoheinakajima](https://twitter.com/yoheinakajima)
 
 Project Link: [https://github.com/yoheinakajima/MindGraph](https://github.com/yoheinakajima/MindGraph)

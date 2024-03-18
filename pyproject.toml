@@ -1,8 +1,12 @@
 [tool.poetry]
-name = "python-template"
+name = "mindgraph"
 version = "0.1.0"
-description = ""
-authors = ["Your Name <you@example.com>"]
+description = "proof of concept prototype for generating and querying against an ever-expanding knowledge graph with ai"
+authors = ["Yohei Nakajima <me@yoheinakajima.com>"]
+
+packages = [
+    { include = "app", from = "." }
+]
 
 [tool.poetry.dependencies]
 python = ">=3.10.0,<3.11"
@@ -14,6 +18,8 @@ openai = "^0.28.1"
 typeid-python = "^0.2.2"
 python-dotenv = "^1.0.1"
 nexus-python = "^0.2.0"
+beautifulsoup4 = "^4.9.3"
+nebula3-python = "^3.5.0"
 
 [tool.pyright]
 # https://github.com/microsoft/pyright/blob/main/docs/configuration.md
