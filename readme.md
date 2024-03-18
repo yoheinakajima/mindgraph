@@ -131,7 +131,19 @@ Database integration is controlled through the DATABASE_TYPE environment variabl
 
 -  `memory` for the in-memory database.
 -  `nexusdb` for NexusDB integration.
--  `nebulagraph` for NebulaGraph integration.(Working-in-progress, not fully verified yet)
+
+```sh
+export DATABASE_TYPE=nexusdb
+```
+
+-  `nebulagraph` for NebulaGraph integration.
+
+> Note: For a running [NebulaGraph](https://github.com/vesoft-inc/nebula), consider using the [Docker Desktop Extension](https://hub.docker.com/extensions/weygu/nebulagraph-dd-ext), [NebulaGraph-Lite](https://github.com/nebula-contrib/nebulagraph-lite) for Colab/Linux with pip install, or explore more options in the [Docs](https://docs.nebula-graph.io/).
+
+```sh
+export DATABASE_TYPE=nebulagraph
+export NEBULA_ADDRESS=127.0.0.1:9669
+```
 
 ### Adding New Database Integrations
 To integrate a new database system into MindGraph:
