@@ -36,5 +36,9 @@ class DatabaseIntegration(ABC):
         pass
 
     @abstractmethod
+    def search_entities_with_type(self, entity_type, search_params):
+        pass
+
+    @abstractmethod
     def search_relationships(self, search_params):
         pass
