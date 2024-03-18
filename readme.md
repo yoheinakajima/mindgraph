@@ -6,23 +6,51 @@ Welcome to MindGraph, a proof of concept, open-source, API-first graph-based pro
 
 ## Getting Started
 
+### Prerequisites
+Before you begin, ensure you have the following installed:
+- Python 3.6 or higher
+- Poetry (dependency management and packaging tool)
+
 ### Installation
 
-To get started with MindGraph, clone the repository and install it.
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/yourusername/MindGraph.git
+   ```
 
-```sh
-pip install .
-```
+2. Navigate to the project directory:
+   ```sh
+   cd MindGraph
+   ```
+
+3. Install the project dependencies using Poetry:
+   ```sh
+   poetry install
+   ```
+   This command will create a virtual environment for the project and install all the required packages specified in the ```pyproject.toml``` file.
+
+- Note: If you get any dependencies error you can run: ```poetry add <name_of_dependency>``` to add dependency to the project.
+
+## Environment Setup
+
+1. Create a ```.env``` file in the project root directory.
+
+2. Open the ```.env``` file and add the following line, replacing ```YOUR_API_KEY``` with your actual OpenAI API key:
+
+   ```sh
+   OPENAI_API_KEY=YOUR_API_KEY
+   ```
 
 ## Running the Application
 
-To run the application, execute the following command:
+   After installing the dependencies, you can start the Flask server with:
 
-```sh
-python main.py
-```
 
-The server will launch on `http://0.0.0.0:81`.
+   ```sh
+   poetry run python main.py
+   ```
+
+   The server will launch on `http://0.0.0.0:81`.
 
 ## Project Structure
 
