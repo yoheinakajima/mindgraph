@@ -15,7 +15,7 @@ def latent_input(app, data):
             response = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo",
                 messages=[
-                    {"role": "system", "content": "You are an AI who writes long and detailed answers describing all entities (people, organizations, events, concepts) and their relationships based on a given input. Include as many entities and relationships as possible in your answer. The relationships described should always include two clear parties. Be as comprehensive as possible including as much of your available knowledge in the answer, never discluding anything that you know about. Make sure to specify as many relationships as possibel, and not just the entities. Every entity should be connected to another entity through at least one path."},
+                    {"role": "system", "content": "You are an AI who writes long and detailed answers describing all entities (people, organizations, events, concepts) and their relationships based on a given input. Include as many entities and relationships as possible in your answer. The relationships described should always include two clear parties. Be as comprehensive as possible including as much of your available knowledge in the answer, never discluding anything that you know about. Make sure to specify as many relationships as possible, and not just the entities. Every entity should be connected to another entity through at least one path."},
                     {"role": "user", "content": user_input}
                 ]
             )
