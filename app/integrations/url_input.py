@@ -70,7 +70,7 @@ def url_input(app, data):
                 }
 
                 # Retrieve the natural_input integration function
-                natural_input_function = get_integration_function('natural_input_flexible')
+                natural_input_function = get_integration_function('natural_input')
 
                 if natural_input_function:
                     # Pass the scraped data to the natural_input integration
