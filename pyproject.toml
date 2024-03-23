@@ -20,6 +20,7 @@ python-dotenv = "^1.0.1"
 nexus-python = "^0.2.0"
 beautifulsoup4 = "^4.9.3"
 nebula3-python = "^3.5.0"
+falkordb = "^1.0.3"
 
 [tool.pyright]
 # https://github.com/microsoft/pyright/blob/main/docs/configuration.md
