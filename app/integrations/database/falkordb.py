@@ -69,7 +69,7 @@ class FalkorDBIntegration(DatabaseIntegration):
                     "from_id": src.id,
                     "to_id": dest.id,
                     "from_type": src.labels[0],
-                    "to _type": dest.labels[0],
+                    "to_type": dest.labels[0],
                     "from_entity": '',
                     "to_entity": '',
                     "relationship_type": e.relation
