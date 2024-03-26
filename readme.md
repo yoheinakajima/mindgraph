@@ -154,6 +154,7 @@ MindGraph supports flexible database integration to enhance its data storage and
 - NexusDB: An all-in-one cloud database designed for storing graphs, tables, documents, files, vectors, and more. Offers a shared knowledge graph for comprehensive data management and analysis.
 Configuring the Database
 - NebulaGraph: A distributed, scalable, and lightning-fast graph database that supports real-time queries and analytics. Ideal for large-scale graph data storage and processing.
+- FalkorDB: A knowledge DB, providing low latency & high throughput, with built-in support for vector search and wide coverage of the Cypher query language.
 
 Database integration is controlled through the DATABASE_TYPE environment variable. To select a database, set this variable:
 
@@ -171,6 +172,17 @@ export DATABASE_TYPE=nexusdb
 ```sh
 export DATABASE_TYPE=nebulagraph
 export NEBULA_ADDRESS=127.0.0.1:9669
+```
+
+-  `falkordb` for FalkorDB integration.
+
+> Note: For a running [FalkorDB](https://www.falkordb.com), consider using the [Docker Image](https://hub.docker.com/r/falkordb/falkordb).
+
+```sh
+export DATABASE_TYPE=falkordb
+export FALKOR_HOST=127.0.0.1
+export FALKOR_PORT=6379
+export FALKOR_GRAPH_ID=mindgraph
 ```
 
 ### Adding New Database Integrations
